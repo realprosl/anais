@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/estilos.css">
+    <title>Multiplicaciones</title>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="./multiplicar.html">Practicar multiplicando</a></li>
+            <li><a href="./tablas.html">Practicar las tablas </a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="contenedor">
+        <input type="number" name="" id="number1" class="number" disabled><br>
+        <label for="">X</label><br>
+        <input type="number" name="" id="number2" class="number" disabled><br>
+        <hr><br>
+        <input type="number" name="" id="resultado" class="resultado"><br>
+        <input type="button" value="Siquiente" class = "button" id="button" disabled>
+        <h1 id="correcion"></h1>
+    </div>
+</body>
+
+</html>
+<script>
+    var contador = localStorage.getItem('contador');
+    console.log(contador);
+    if (contador == null){
+        contador = 0;
+        localStorage.setItem('contador',contador);
+    }else{
+        contador = parseInt(contador);
+        contador++;
+        localStorage.setItem('contador',contador);
+
+    }
+    var bien = parseInt(localStorage.getItem("bien"));
+    var mal = parseInt(localStorage.getItem('mal'));
+    const number1 = document.getElementById('number1').value = Math.floor(Math.random() * 100);
+    const number2 = document.getElementById('number2').value = Math.floor(Math.random() * 10);
+    const resultado = document.getElementById('resultado');
+    resultado.focus();
+    const correcion = document.getElementById('correcion');
+    let resMulti = number1 * number2;
+    var res = '';
+    resultado.addEventListener("change", () => {
+        if (resultado.value == resMulti) {
+            res = 'bien';
+            console.log(res);
+
+        } else {
+            res = 'mal';
+            console.log(res);
+
+        }
+        if (res === 'bien') {
+            correcion.setAttribute('class', 'verdadero');
+            correcion.innerHTML = '!! Bien ¡¡';
+            bien++;
+            localStorage.setItem('bien',bien);
+            }
+
+        if (res === 'mal') {
+            correcion.setAttribute('class', 'falso');
+            correcion.innerHTML = '!! Mal ¡¡';
+            mal++;
+            localStorage.setItem('mal',mal);
+        }
+        let boton = document.getElementById('button')
+        boton.disabled=false;
+        boton.focus();
+        boton.addEventListener("click",()=>{
+            if(parseInt(localStorage.getItem('contador'))>9){
+                let container = document.getElementById('contenedor');
+                container.innerHTML="";
+                container.style.paddingTop = '1%';
+                container.innerHTML+=`<h2>Realizado un total de ${ localStorage.getItem('contador') } veces</h2><br>`;
+                container.innerHTML+=`<h3>Has acertado  ${ localStorage.getItem('bien') } veces</h3>`;
+                container.innerHTML+=`<h3> y fallaste ${ localStorage.getItem('mal') } veces</h3><br>`;
+                localStorage.setItem('contador','0');
+                localStorage.setItem('mal','0');
+                localStorage.setItem('bien','0');
+            }else{
+                location.reload();
+            }
+        })
+
+    });
+
+</script>

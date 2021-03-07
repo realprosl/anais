@@ -1,0 +1,113 @@
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/estilos.css">
+    <title>Multiplicaciones</title>
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="./multiplicar.html">Practicar multiplicando</a></li>
+            <li><a href="./tablas.html">Practicar las tablas </a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="contenedor">
+        <label for="selectorTabla">Seleciona la tabla   >></label>
+        <input type="text" id="selectorTabla" class="select" style="width: 50px;text-align: center;float: right;margin-right: 20px;"><br>
+        <hr style="width: 90%;">
+        <input type="button" value="Intentalo otra vez" class="button" id="button" disabled>
+        <h1 id="correcion"></h1>
+    </div>
+</body>
+
+</html>
+<script>
+    //funciones
+    function printLine(element1, element2, tamaño) {
+        let hr = document.createElement('hr');
+        element1.insertBefore(hr, element2);
+        hr.style.width = tamaño;
+        hr.style.borderStyle = 'none';
+        hr.style.marginTop = '20px';
+        hr.style.marginBottom = '20px';
+    }
+    let container = document.getElementById('contenedor');
+    container.style.paddingTop = '1%';
+    container.style.width = "45%";
+    let htmlTabla = document.getElementById('selectorTabla');
+    htmlTabla.addEventListener("change", () => {
+        let tabla = document.getElementById('selectorTabla').value;
+        //imprimo numeradores
+        for (i = 0; i < 10; i++) {
+            let label = document.createElement('label');
+            label.setAttribute("id", 'label'+i);
+            label.style.width = '50px';
+            label.style.margin = '2px';
+            label.innerText = i + 1;
+            var boton = document.getElementById('button');
+            container.insertBefore(label, boton);
+        }
+        printLine(container, boton, '90%');
+        //imprimo primer multiplo
+        for (i = 0; i < 10; i++) {
+            let label = document.createElement('label');
+            label.setAttribute("id", 'tabla' + i);
+            label.style.width = '50px';
+            label.style.margin = '2px';
+            label.innerText = tabla;
+            var boton = document.getElementById('button');
+            container.insertBefore(label, boton);
+        }
+        printLine(container, boton, '90%');
+
+        //imprimo segundo multiplo
+        for (i = 0; i < 10; i++) {
+            let input = document.createElement('input');
+            input.setAttribute("id", i);
+            input.style.width = '50px';
+            input.style.margin = '2px';
+            input.style.borderStyle='none';
+            input.style.textAlign='center';
+            let boton = document.getElementById('button');
+            container.insertBefore(input, boton);
+        }
+        var res = Array();
+
+        for (i = 1; i < 11; i++) {
+            res[i - 1] = i * tabla;
+        }
+        container.addEventListener('change',(e)=>{
+            var input = document.getElementById(e.target.id);
+            var value = parseInt(e.target.id)+1;
+
+            console.log(input);
+                console.log(input.value);
+
+                if(input.value == (value*tabla)){
+                    console.log('correcto');
+                    input.style.borderColor='greenlemon';
+                    input.style.borderStyle='solid';
+                    input.style.backgroundColor='lightgreen';
+                    input.style.color='white';
+                }else{
+                    if(input.id === 'selectorTabla' ){
+                        console.log('if');
+                    }else{
+                    console.log('incorrecto');
+                    input.style.borderColor='red';
+                    input.style.borderStyle='solid';
+                    input.style.backgroundColor='lightcoral';
+                    input.style.color='white';
+                }
+                }
+        })
+        boton.disabled=false;
+        boton.addEventListener('click',()=>location.reload());
+    });
+</script>
